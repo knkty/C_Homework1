@@ -1,0 +1,144 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<conio.h>
+#include<windows.h>
+#include<string.h>
+void main(){
+	char kullaniciAdi[BUFSIZ] = "okan", sifre[BUFSIZ]="ooktay",tempAd[BUFSIZ]=" ",tempSifre[BUFSIZ]=" ",gonderilecekHesapNo[BUFSIZ];//ad ve sifreyi gomulu verdim.tempad ve tempsifre ile kullanici adini ve sifreyi alip gomulu degerlerle karsilastiriyorum
+	int   hak = 1 , hesabindakiPara=900 , eklenenPara = 0 , cekilenPara = 0 , gonderilenPara = 0 , kir = 0;//sifreyi her yanlis giriste hak'i arttiriyorum. 3 kez yanlis giriste program kapaniyo, programi kapatma islemi kir degiskeni ile yapiliyo.Do while dongusu kir=0 oldugunda calisiyo, kir 1 oldugunda dongu sonlaniyo. 
+	char input = 'x';//bu degisken switch case yapisi icin.	
+	
+	do{		 // donguye giriyoruz kullanici ! karakterine  basmadigi surece dongu kirilmayacak.
+		        system("CLS");
+		        printf("\n\n\n\t\tGIRIS YAP>>>> G\n\n\t\tHESABINIZDAKI PARA MIKTARI>>>> $\n\n\t\tHESABINA PARA EEKLE>>>> +\n\n\t\tHESABINDAN PARA CEK>>>> -\n\n\t\tBASKA HESABA PARA GONDER>>>> #\n\n\t\tCIKIS>>> !\n\n\tDIKKAT!!!\n\n\t    Herhangibir islem yapabilmek icin giris yapmalisiniz...\n\n\n");
+				printf("\n\nYapmak istediginiz islemi secip ENTER 'a  basiniz = ");// menuyu yazdiriyorum
+				scanf("%c",&input);//kullanicidan karakter girmesini istiyorum. ve bu karakteri inputa atiyorum.else if yapisini kullanarak simdilik sadece ! ve g karakterleri icin islem yapiyo.! icin cikis islemi.G icin kullanici adi ve sifre istiyo. diger islemleri yapamiyo.! karakterine basilmadigi taktirde dongu donmeye devam ediyor.
+				if(input=='G' || input=='g'){//cesa sensitive olmamasi icin if in kosulunu kucuk ve buyuk g icin veya ile bagladim.
+						do{	// kullanici g ye bastiginda yeni bir donguye giriyoruz.Bu dongu gereksizmis gibi gorunebilir. Fakat bu dongu kullanici kullanici adini yanlis girdiginde dogrusunu girmek icin tekrar g karakterine basmasini engelliyor.yani yanlis girildiginde 2 hakkin kaldi deyip g ye basmasini beklemeden tekrar kullanici adi ve sifre istiyor. 	
+							            system("CLS");
+										printf("\n\n\tKullanici adini giriniz = ");	 //	kullanici adini 
+										scanf("%s",&tempAd);						 //	 	  ve 
+										printf("\n\n\tSifreyi giriniz giriniz = ");	 // sifreyi istiyorum
+										scanf("%s",&tempSifre);
+												do{	//yeni bir donguye giriyor ve else if yapisi ile girilen verilerin dogrulugunu kontrol ediyor dogru ise yeni menuyu yazdirip switc case yapisini kullaniyor, uc kez yanlis girildi ise donguyu kirip programi sonlandiriyor.
+																if(*kullaniciAdi == *tempAd && *sifre == *tempSifre){
+																	system("CLS");
+																	printf("\n\n\n\t\tHESABINIZDAKI PARA MIKTARI>>>> $\n\n\t\tHESABINA PARA EEKLE>>>> +\n\n\t\tHESABINDAN PARA CEK>>>> -\n\n\t\tBASKA HESABA PARA GONDER>>>> #\n\n\t\tCIKIS>>> !\n\n\n");
+																	printf("\n\nYapmak istediginiz islemi secip ENTER 'a  basiniz = ");	// icnde giris islemi olmayan yeni menu.
+																	scanf("%c",&input);
+																				switch (input){
+									
+																					case '$':
+																						system("CLS");
+																						printf("\n\n\tHesabinizdaki para miktari = %d TL",hesabindakiPara);
+																						getch();  
+																						break;																					
+
+																					case '+':
+																						system("CLS");
+																						printf("\n\n\tHesabiniza eklemek istediginiz para miktari = ");
+																						scanf("%d",&eklenenPara);
+																						if(eklenenPara > 0 ){ //hesabina negatif deger eklemesini engelliyorum.
+																							hesabindakiPara += eklenenPara;
+																							printf("\n\n\tEKLENDI :D ");
+																							printf("\n\n\tHesabinizdaki para miktari = %d TL",hesabindakiPara);
+																							getch();
+																						}
+																						else if(eklenenPara > 2^31-1){// int in tutamayacagi degerleri eklemesini engelliyorum.
+																							system("CLS");
+																						}
+																						else{
+																							system("CLS");//kullanici karakter girdiginde islem yapmamasini sagliyorum.																						
+																						}																						
+																						break;
+																						
+																					case '-':
+																						system("CLS");
+																						printf("\n\n\tHesabinizdan cekmek istediginiz para miktari = ");
+																						scanf("%d",&cekilenPara);
+																						if(cekilenPara <= hesabindakiPara && cekilenPara > 0){	//kullanicinin hesabindaki paradan buyuk yada negetif rakam girmesini engelliyorum.
+																							hesabindakiPara -= cekilenPara;
+																							printf("\n\n\tCEKILDI :( ");
+																							printf("\n\n\tHesabinizdaki para miktari = %d TL",hesabindakiPara);
+																							getch();
+																						}
+																						else if (cekilenPara > hesabindakiPara){ 
+																							system("CLS");	
+																							printf("\n\n\n YETERLI bakiye yok!!!");	
+																							getch();
+																						}
+																						else if(cekilenPara > 2^31-1){	// int in tutamayacagi rakam girildiginde islem yapmiyor.ekrani temizliyor.
+																							system("CLS");																							
+																						}
+																						else{
+																							system("CLS");	// yada herhangibi farkli kosullarin disinda bisey girilince islem yapmayip ekrani temizliyor.																					
+																						}
+																						break;
+
+																					case '#' :
+																						system("CLS");
+																						printf("\n\n\tParanin gonderilecegi hesap no = ");
+																						scanf("%s",&gonderilecekHesapNo);
+																						printf("\n\n\tGonderilecek miktar = ");
+																						scanf("%d",&gonderilenPara);
+																						if(gonderilenPara > 0 && gonderilenPara < hesabindakiPara){	 // gonderilen paranin negatif olmasini ve mevcut paradan fazla olmamasinin kontrolu yapiliyor.
+																							hesabindakiPara -= gonderilenPara;
+																							system("CLS");
+																							printf("\n\n\tGonderildi :(");
+																							printf("\n\n\tHesabinizdaki para miktari = %d TL",hesabindakiPara);
+																							getch();
+																						}
+																						else if(gonderilenPara > hesabindakiPara){	//mevcut paradan fazlaysa bakiye yetersiz yazdiriyorum
+																							system("CLS");
+																							printf("\n\n\tBakiye yeterli degil!!!\n\n\nHesabinizdaki para miktari = %d TL",hesabindakiPara);
+																						    getch();
+																						}
+																						else if(gonderilenPara > 2^31-1){ // yine cok buyuk degerler girildiginde iekrani temizleyip islem yapmiyor.
+																							system("CLS");																							
+																						}
+																						else{
+																							system("CLS");
+																							printf("\n\n\tCok sacma bir giris yaptiniz :@");   //kosullari saglamayan herhangibirsey girilince ekrana cok sacma bir giris yaptiniz yaziyor.
+																							getch();
+																						}																						
+																						break;
+
+																					case '!' :
+																						system("CLS");
+																						kir=1;			   // cikis islemi .
+																						break;
+
+																					default:
+																								   //kullanici switch case nin kullanamayacagi karakter girdiginde donguyu tekrarlayip switch case yapisi tekrar basliyor.
+																						break;
+																				}
+															             }
+
+																else if (hak<4){ //hak degiskenini kullanicinin kalaan hakki icin kullanyorum.
+																	system("CLS");
+																	printf("\n\nSifreyi yanlis  girdiniz. %d hakkiniz kaldi ",3-hak);
+																	hak++;
+																	if(hak==3) //hak 3 oldugunda 0 hakkin kaldi yazmamasi icin . bu if olmadan sifreyi 4 kez istiyordu.
+																		hak++;
+																	getch();
+																	break;
+																} 
+                                                               else if(hak > 3){	// hak 3 kez yanlis girilince  hakkin bitti yazip program kapaniyor.
+																   system("CLS");
+																   printf("\n\n\tHAKKIN BITTI...\n");
+																   getch();
+																	kir=1;
+																	break;
+																    }
+												}while (kir==0);
+						}while (kir==0);
+				}
+				else if(input=='!' ){
+					kir=1;
+					break;
+				}
+	}while (kir==0);
+	system("CLS");
+	if(hak < 3)	  //eger kullanici 3 kez sifreyi yanlis girmeden kendi istegiyle cikis yappmissa basari ile ciktiniz yazdiriyorum.
+	printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\t\t\tBASARI ILE CIKIS YAPTINIZ (!)\n\n\n\n\n\n");
+}
